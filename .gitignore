@@ -1,0 +1,21 @@
+# Unity generated files and folders
+[Ll]ibrary/
+[Ll]ogs/
+[Oo]bj/
+[Tt]emp/
+[Uu]ser[Ss]ettings/
+Assets/StreamingAssets/google-services.json
+
+# Visual Studio / Rider generated files and folders
+.vs/
+*.csproj
+*.sln
+*.userprefs
+*.user
+UpgradeLog.htm
+.vsconfig
+*.meta
+
+# Misc
+.DS_Store
+Thumbs.db

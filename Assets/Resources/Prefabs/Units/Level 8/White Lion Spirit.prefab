@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5790247903662419907
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      propertyPath: m_Name
+      value: White Lion Spirit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8989587502034152919}
+  m_SourcePrefab: {fileID: 100100000, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+--- !u!1 &6672784455405572754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d97928a92ba07714083e5d42a4b9cc79, type: 3}
+  m_PrefabInstance: {fileID: 5790247903662419907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8989587502034152919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672784455405572754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642147f6ae4f9804c9630bbfb9ba0fd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 1000
+  CurrentHealth: 1000
+  AttackDamage: 560
+  CurrentAttackDamage: 560
+  Name: White Lion Spirit
+  Type: 
+  Stars: 0
+  Id: 1210
+  Player: 0
