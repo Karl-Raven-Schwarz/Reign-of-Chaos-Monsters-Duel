@@ -7,7 +7,7 @@ public class Deck : MonoBehaviour
 {
     public List<GameObject> Cards = new();
     SlotController SlotController;
-    public int CurrentIndexForInvoke { get; set;}
+    public int CurrentIndexForInvoke { get; set; } = 0;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class Deck : MonoBehaviour
 
     public void InvokeCard(int index)
     {
-        SlotController.ShowFreeSlots();
+        SlotController.ToggleFreeSlots(CurrentIndexForInvoke == index);
         CurrentIndexForInvoke = index;
     }
 

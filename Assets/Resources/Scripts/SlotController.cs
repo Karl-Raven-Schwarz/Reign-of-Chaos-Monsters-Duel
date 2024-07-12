@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SlotController : MonoBehaviour
 {
     int Mana, Mana2;
+
     #region Public
 
     public GameObject SlotPrefab;
@@ -26,9 +27,16 @@ public class SlotController : MonoBehaviour
 
     #endregion
 
-    #region Properties
+    #region ATRIBUTES
 
     const int MaxSlots = 7;
+
+    #endregion
+
+    #region Properties
+
+    bool FreeSlotIsEnabled { get; set; } = false;
+    Card CurrentCard { get; set; }
 
     #endregion
 
@@ -42,7 +50,6 @@ public class SlotController : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     #region Functions
@@ -74,29 +81,35 @@ public class SlotController : MonoBehaviour
         }
     }
 
-    public void ShowFreeSlots()
+    public void ToggleFreeSlots(bool isEqualIndex)
     {
-        foreach(var slot in PlayerSlots)
+        if (FreeSlotIsEnabled && isEqualIndex)
         {
-            if(!slot.GetComponent<Slot>().Card)
+            foreach (var slot in PlayerSlots)
             {
-                slot.GetComponent<Slot>().SelectionEffect[2].SetActive(true);
-                slot.GetComponent<Slot>().CardTemplate.SetActive(true);
-                slot.GetComponent<Slot>().Status = 2;
+                if (!slot.GetComponent<Slot>().Card)
+                {
+                    slot.GetComponent<Slot>().SelectionEffect[2].SetActive(false);
+                    slot.GetComponent<Slot>().CardTemplate.SetActive(false);
+                    slot.GetComponent<Slot>().Status = 0;
+                }
             }
-        }
-    }
 
-    public void HideFreeSlots()
-    {
-        foreach (var slot in PlayerSlots)
+            FreeSlotIsEnabled = false;
+        }
+        else
         {
-            if (!slot.GetComponent<Slot>().Card)
+            foreach(var slot in PlayerSlots)
             {
-                slot.GetComponent<Slot>().SelectionEffect[2].SetActive(false);
-                slot.GetComponent<Slot>().CardTemplate.SetActive(false);
-                slot.GetComponent<Slot>().Status = 0;
+                if(!slot.GetComponent<Slot>().Card)
+                {
+                    slot.GetComponent<Slot>().SelectionEffect[2].SetActive(true);
+                    slot.GetComponent<Slot>().CardTemplate.SetActive(true);
+                    slot.GetComponent<Slot>().Status = 2;
+                }
             }
+
+            FreeSlotIsEnabled = true;
         }
     }
 
@@ -136,7 +149,7 @@ public class SlotController : MonoBehaviour
         Debug.Log("End SetColor");
         PlayerSlots[slotId].GetComponent<Slot>().Status = 0;
 
-        HideFreeSlots();
+        ToggleFreeSlots(false);
         Mana++;
     }
 

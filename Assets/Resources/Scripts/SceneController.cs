@@ -594,8 +594,12 @@ public class SceneController : MonoBehaviour
             PlayerCardName.text = $"{card.Name}";
             PlayerCardStats.text = $"{card.AttackDamage}\n{card.CurrentHealth}";
 
-            for (int i = 0; i < PlayerCards.Count; i++) {
-                if(PlayerCards[i].GetComponent<Stats>().Id == CurrentCard) SelectionAreas[i].SetActive(false);
+            for (int i = 0; i < PlayerCards.Count; i++) 
+            {
+                if (PlayerCards[i].GetComponent<Stats>().Id == CurrentCard)
+                {
+                    SelectionAreas[i].SetActive(false);
+                }
 
                 if (PlayerCards[i].GetComponent<Stats>().Id == card.Id) {
                     SelectionAreas[i].SetActive(true);
@@ -616,7 +620,10 @@ public class SceneController : MonoBehaviour
 
             for (int i = 0; i < PCCards.Count; i++) 
             {
-                if(PCCards[i].GetComponent<Stats>().Id == Target) TargetAreas[i].SetActive(false);
+                if (PCCards[i].GetComponent<Stats>().Id == Target)
+                {
+                    TargetAreas[i].SetActive(false);
+                }
 
                 if (PCCards[i].GetComponent<Stats>().Id == card.Id) 
                 { 
@@ -665,12 +672,10 @@ public class SceneController : MonoBehaviour
             SlotController.ShowSelectionEffect(slotID, isPlayer);
 
             //Move Potrait Camera
-
             var postion = Potrait1.transform.position;
             Potrait1.transform.position = new Vector3(-0.4f + ((slotID - 1) * 0.2f), postion.y, postion.z);
 
             CurrentCard = slotID;
-            return;
         }
         /*
         if (PCIdCards.Contains(card.Id) && card.Player == 0)

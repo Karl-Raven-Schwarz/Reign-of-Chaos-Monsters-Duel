@@ -22,7 +22,7 @@ public class Select : MonoBehaviour
                 if (raycastHit.collider.GetComponent<Stats>() != null)
                 {
                     var card = raycastHit.collider.gameObject.GetComponent<Stats>();
-                    Debug.Log($"Select Slot: {card.Id} - {card.Name}");
+                    Debug.Log($"Select: Select Slot: {card.Id} - {card.Name}");
                     SceneController.SelectCard(card.Id, card.Name);
                     SceneController.LoadCurrentCard(card);
                 }

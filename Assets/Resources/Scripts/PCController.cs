@@ -18,7 +18,6 @@ public class PCController : MonoBehaviour
 
     void Update()
     {
-        
         if(SceneController.GamePhase.Battle == SceneController.GetPhase() && IsMyTurn && !SceneController.IsUserTurn && CardsInvoked < 7)
         {
             Debug.Log($"SceneController.GetPhase(): {SceneController.GetPhase()}");

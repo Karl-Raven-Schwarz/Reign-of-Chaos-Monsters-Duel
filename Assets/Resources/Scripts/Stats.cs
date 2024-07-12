@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class Stats : MonoBehaviour
     [Range(1, 15)]
     public int Stars;
     public int Id;
+
+    // Id in game, not in database
+    public Guid UID = Guid.NewGuid();
     public int Player = 0;
     //public SpriteRenderer ImageCard;
 
