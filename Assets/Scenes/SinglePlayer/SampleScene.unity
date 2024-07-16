@@ -309,7 +309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &40919615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,7 +1226,7 @@ Transform:
   m_GameObject: {fileID: 154453083}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.8, z: -0.09}
+  m_LocalPosition: {x: 0, y: 0.852, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2509,6 +2509,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3901992563441801604, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3656d0aa017075d48939785eefd39dc1, type: 2}
+    - target: {fileID: -3119236414387510727, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3656d0aa017075d48939785eefd39dc1, type: 2}
     - target: {fileID: 919132149155446097, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
       propertyPath: m_Name
       value: arena
@@ -2517,6 +2525,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1282219121056404672, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3656d0aa017075d48939785eefd39dc1, type: 2}
+    - target: {fileID: 3566390031902043909, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3656d0aa017075d48939785eefd39dc1, type: 2}
+    - target: {fileID: 4495414801083549842, guid: 666ac87c5470f3d458dee7169ec076c8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3656d0aa017075d48939785eefd39dc1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10815,9 +10835,9 @@ RectTransform:
   m_Father: {fileID: 40919618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -6.6953125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1813173429
 MonoBehaviour:
