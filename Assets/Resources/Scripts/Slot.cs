@@ -9,7 +9,7 @@ public class Slot: MonoBehaviour
     [Header("Properties")]
    
     public Vector3 Position;
-    public bool IsPlayer;
+    public bool IsPlayer { get; set; }
     public int SlotID { get; set; } = -1;
 
     #endregion
@@ -21,14 +21,34 @@ public class Slot: MonoBehaviour
     public GameObject HealthBarObject;
     public HealthBar HealthBar;
 
+    /// <summary>
+    /// Card image template
+    /// </summary>
     public GameObject CardTemplate;
+
+    /// <summary>
+    /// 0: Red
+    /// 1: Green
+    /// 2: Blue
+    /// 3: Orange
+    /// </summary>
     public List<GameObject> SelectionEffect;
     public GameObject Card { get; set; }
 
     /// <summary>
-    /// 2 = Invoke
     /// </summary>
-    public int Status { get; set; }
+    public SlotStatus Status {
+        get
+        {
+            return Card == null ? SlotStatus.Empty : SlotStatus.Invoke;
+        }
+    }
+
+    public enum SlotStatus
+    {
+        Empty = 0,
+        Invoke = 1, // have card
+    }
 
     #endregion
 
@@ -38,13 +58,14 @@ public class Slot: MonoBehaviour
         HealthBarObject.SetActive(false);
     }
 
-    public void ActiveSelectionCard()
+    /// <summary>
+    /// option: 0 (Red), 1 (Green), 2 (Blue), 3 (Orange)
+    /// state: true (Enable), false (Disable)
+    /// </summary>
+    /// <param name="option"></param>
+    /// <param name="state"></param>
+    public void ChangeSelectionEffect(int option, bool state)
     {
-        SelectionEffect[0].SetActive(true);
-    }
-
-    public bool HaveCard()
-    {
-        return Card != null;
+        SelectionEffect[option].SetActive(state);
     }
 }

@@ -7,7 +7,7 @@ using TMPro;
 public class PlatformSelect : MonoBehaviour
 {
     public List<GameObject> Cards;
-    public SceneController SceneController; 
+    public BattlePhase.SceneController SceneController; 
     private List<GameObject> CardsSaved;
 
     public TextMeshProUGUI CardName;
@@ -30,7 +30,7 @@ public class PlatformSelect : MonoBehaviour
         Stars = 25;
         TMStars.text = "25";
 
-        if (SceneController.GetPhase() == SceneController.GamePhase.Selection) 
+        if (SceneController.GetPhase() == BattlePhase.SceneController.GamePhase.Selection) 
         {
             CardsSaved.Add(Instantiate(Cards[index]));
             var stats = CardsSaved[index].GetComponent<Stats>();

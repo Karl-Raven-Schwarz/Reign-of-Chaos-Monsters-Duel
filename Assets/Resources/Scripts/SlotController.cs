@@ -18,12 +18,15 @@ public class SlotController : MonoBehaviour
     GameObject PlayerDeck;
     Deck PCDeck;
 
-    int CurrentCardSelected { get; set; } = -1;
+    /// <summary>
+    /// Current Player Card Selected
+    /// </summary>
+    int CurrentPlayerCard { get; set; } = -1;
 
     /// <summary>
-    /// -1 = None, 0 = Player and 1 = PC
+    /// Current PC Card Selected
     /// </summary>
-    int IsPlayerDeckSelected { get; set; } = -1;
+    int CurrentPCCard { get; set; } = -1;
 
     #endregion
 
@@ -69,12 +72,14 @@ public class SlotController : MonoBehaviour
             playerSlot.SetActive(true);
             playerSlot.transform.position = new Vector3(xInitialPosition, yPosition, -zPosition);
             playerSlot.GetComponent<Slot>().SlotID = i;
+            playerSlot.GetComponent<Slot>().IsPlayer = true;
             PlayerSlots.Add(playerSlot);
 
             GameObject pcSlot = Instantiate(SlotPrefab);
             pcSlot.SetActive(true);
             pcSlot.transform.position = new Vector3(-xInitialPosition, yPosition, zPosition);
             pcSlot.GetComponent<Slot>().SlotID = i;
+            pcSlot.GetComponent<Slot>().IsPlayer = false;
             PCSlots.Add(pcSlot);
 
             xInitialPosition += 0.2f;
@@ -91,7 +96,6 @@ public class SlotController : MonoBehaviour
                 {
                     slot.GetComponent<Slot>().SelectionEffect[2].SetActive(false);
                     slot.GetComponent<Slot>().CardTemplate.SetActive(false);
-                    slot.GetComponent<Slot>().Status = 0;
                 }
             }
 
@@ -105,7 +109,6 @@ public class SlotController : MonoBehaviour
                 {
                     slot.GetComponent<Slot>().SelectionEffect[2].SetActive(true);
                     slot.GetComponent<Slot>().CardTemplate.SetActive(true);
-                    slot.GetComponent<Slot>().Status = 2;
                 }
             }
 
@@ -117,9 +120,13 @@ public class SlotController : MonoBehaviour
     {
         var card = PlayerDeck.GetComponent<Deck>().InvokeCard();
 
+        if (card == null)
+        {
+            return;
+        }
+
         var getStats = card.GetComponent<Stats>();
 
-        Debug.Log(getStats.Stars + "---------");
         if (getStats.Stars > Mana) return;
 
         PlayerSlots[slotId].GetComponent<Slot>().Card = Instantiate(card);
@@ -144,12 +151,10 @@ public class SlotController : MonoBehaviour
             0.2f,
             slotPosition.z
         );
-        Debug.Log("Start SetColor");
-        PlayerSlots[slotId].GetComponent<Slot>().HealthBarObject.GetComponentInChildren<HealthBar>().SetColor(true);
-        Debug.Log("End SetColor");
-        PlayerSlots[slotId].GetComponent<Slot>().Status = 0;
 
-        ToggleFreeSlots(false);
+        PlayerSlots[slotId].GetComponent<Slot>().HealthBarObject.GetComponentInChildren<HealthBar>().SetColor(true);
+
+        ToggleFreeSlots(true);
         Mana++;
     }
 
@@ -220,32 +225,78 @@ public class SlotController : MonoBehaviour
 
     public void ShowSelectionEffect(int slotId, bool isPlayer)
     {
+        Debug.Log($"ShowSelectionEffect: {slotId} - {isPlayer}");
         if (isPlayer)
         {
-            PlayerSlots[slotId].GetComponent<Slot>().SelectionEffect[1].SetActive(true);
+            PlayerSlots[slotId].GetComponent<Slot>().ChangeSelectionEffect(1, true);
             PlayerSlots[slotId].GetComponent<Slot>().CardTemplate.SetActive(true);
-
-            if(CurrentCardSelected != -1)
+            
+            if(CurrentPlayerCard != slotId && CurrentPlayerCard != -1)
             {
-                PlayerSlots[CurrentCardSelected].GetComponent<Slot>().SelectionEffect[1].SetActive(false);
-                PlayerSlots[CurrentCardSelected].GetComponent<Slot>().CardTemplate.SetActive(false);
+                PlayerSlots[CurrentPlayerCard].GetComponent<Slot>().ChangeSelectionEffect(1, false);
+                PlayerSlots[CurrentPlayerCard].GetComponent<Slot>().CardTemplate.SetActive(false);
             }
 
-            CurrentCardSelected = slotId;
+            CurrentPlayerCard = slotId;
         }
         else
         {
-            PCSlots[slotId].GetComponent<Slot>().SelectionEffect[1].SetActive(true);
+            PCSlots[slotId].GetComponent<Slot>().ChangeSelectionEffect(0, true);
             PCSlots[slotId].GetComponent<Slot>().CardTemplate.SetActive(true);
 
-            if (CurrentCardSelected != -1)
+            if (CurrentPCCard != slotId && CurrentPCCard != -1)
             {
-                PCSlots[CurrentCardSelected].GetComponent<Slot>().SelectionEffect[1].SetActive(false);
-                PCSlots[CurrentCardSelected].GetComponent<Slot>().CardTemplate.SetActive(false);
+                PCSlots[CurrentPCCard].GetComponent<Slot>().ChangeSelectionEffect(0, false);
+                PCSlots[CurrentPCCard].GetComponent<Slot>().CardTemplate.SetActive(false);
             }
 
-            CurrentCardSelected = slotId;
+            CurrentPCCard = slotId;
         }
+    }
+
+    public void SelectCard(int slotID, bool isPlayer)
+    {
+        /*
+        if (!initBattle) return;
+
+        if (isPlayer)
+        {
+            var card = SlotController.GetCard(slotID, isPlayer);
+
+            //Load Card Stats in UI
+            DamagePlayerCardImage.SetActive(true);
+            HealthPlayerCardImage.SetActive(true);
+            PlayerCardName.text = $"{card.Name}";
+            PlayerCardStats.text = $"{card.AttackDamage}\n{card.CurrentHealth}";
+
+            //Show Selection Effect
+            ShowSelectionEffect(slotID, isPlayer);
+
+            //Move Portrait Camera
+            var postion = Potrait1.transform.position;
+            Potrait1.transform.position = new Vector3(-0.4f + ((slotID - 1) * 0.2f), postion.y, postion.z);
+
+            CurrentCard = slotID;
+        }
+        else
+        {
+            var card = SlotController.GetCard(slotID, isPlayer);
+            //Load Card Stats in UI
+            DamagePCCardImage.SetActive(true);
+            HealthPCCardImage.SetActive(true);
+            PCCardName.text = $"{card.Name}";
+            PCCardStats.text = $"{card.AttackDamage}\n{card.CurrentHealth}";
+
+            //Show Selection Effect
+            SlotController.ShowSelectionEffect(slotID, isPlayer);
+
+            // Move Portrait Camera
+            var postion = Potrait2.transform.position;
+            Potrait2.transform.position = new Vector3(0.4f - ((slotID - 1) * 0.2f), postion.y, postion.z);
+
+            CurrentCard = slotID;
+        }
+        */
     }
 
     #endregion

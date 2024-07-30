@@ -5,7 +5,7 @@ using UnityEngine;
 public class PCController : MonoBehaviour
 {
     SlotController SlotController;
-    SceneController SceneController;
+    BattlePhase.SceneController SceneController;
 
     bool IsMyTurn { get; set; }
     int CardsInvoked = 0;
@@ -13,12 +13,12 @@ public class PCController : MonoBehaviour
     void Start()
     {
         SlotController = FindObjectOfType<SlotController>();
-        SceneController = FindObjectOfType<SceneController>();
+        SceneController = FindObjectOfType<BattlePhase.SceneController>();
     }
 
     void Update()
     {
-        if(SceneController.GamePhase.Battle == SceneController.GetPhase() && IsMyTurn && !SceneController.IsUserTurn && CardsInvoked < 7)
+        if(BattlePhase.SceneController.GamePhase.Battle == SceneController.GetPhase() && IsMyTurn && !SceneController.IsUserTurn && CardsInvoked < 7)
         {
             Debug.Log($"SceneController.GetPhase(): {SceneController.GetPhase()}");
             SlotController.PCInvokeCard();

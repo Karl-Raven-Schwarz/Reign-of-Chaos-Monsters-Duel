@@ -7,7 +7,7 @@ public class Deck : MonoBehaviour
 {
     public List<GameObject> Cards = new();
     SlotController SlotController;
-    public int CurrentIndexForInvoke { get; set; } = 0;
+    public int CurrentIndexForInvoke { get; set; } = -1;
 
     void Start()
     {
@@ -27,6 +27,11 @@ public class Deck : MonoBehaviour
 
     public GameObject InvokeCard()
     {
+        if(CurrentIndexForInvoke == -1)
+        {
+            return null;
+        }
+
         return Cards[CurrentIndexForInvoke];
     }
 }

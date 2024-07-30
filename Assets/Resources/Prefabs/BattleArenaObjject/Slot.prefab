@@ -500,12 +500,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Position: {x: 0, y: 0, z: 0}
-  IsPlayer: 0
   HitEffect: {fileID: 3432958286849152088, guid: 8dac8a301054b4f4ea921773fec1ac1c, type: 3}
   HealthBarObject: {fileID: 8211015087428129881, guid: 15faff6e461476143b9b00b335d702ed, type: 3}
+  HealthBar: {fileID: 0}
   CardTemplate: {fileID: 2118671729393922974}
   SelectionEffect:
   - {fileID: 1118747833868952763}
-  - {fileID: 1118747833868952763}
+  - {fileID: 2858739558183578589}
   - {fileID: 2953702317687010513}
   - {fileID: 6552129922777754324}
