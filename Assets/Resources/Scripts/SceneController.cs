@@ -2,25 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System;
-using System.Threading;
 using System.Linq;
-using TMPro;
 
 namespace BattlePhase
 {
     public class SceneController : MonoBehaviour
     {
-        #region Slots
+        #region PROPIERTIES
 
         [Header("Slots")]
+
         public List<GameObject> PlayerSlots;
         public List<GameObject> PCSlots;
-
-        SlotController SlotController;
-
-        #endregion
 
         public List<GameObject> PCCards;
         int PCCardsAliveCount;
@@ -31,75 +24,18 @@ namespace BattlePhase
         public GameObject Portrait1;
         public GameObject Portrait2;
 
-
-        public GameObject SelectionCanvas;
-        public GameObject EndGameCanvas;
-        public GameObject BattleCanvas;
         private List<int> PlayerIdCards;
         private List<int> PCIdCards;
-        private GamePhase Phase = GamePhase.Selection;
+        
+        
+        SlotController SlotController { get; set; }
+        PlayerController PlayerController { get; set; }
 
-
-        #region Hit Particles
-
-        [Header("Hit Particles")]
-        public List<ParticleSystem> PlayerHitEffects;
-        public List<ParticleSystem> PCHitEffects;
-
-        #endregion
-
-
-        #region Canvas for Card Selection in Battle
-
-        [Header("Canvas for Card Selection in Battle")]
-        public GameObject SelectionArea;
-        public GameObject TargetArea;
-
-        #endregion
-
-        #region Selection and Target Area
-
-        [Header("Selection and Target Area")]
-        public List<GameObject> SelectionAreas;
-        public List<GameObject> TargetAreas;
-        public List<GameObject> EnemyAreas;
-
-        #endregion
-
-        #region Sounds
-
-        [Header("Sounds")]
-        public AudioSource PlaySound;
-        public AudioSource RestartSound;
-        public AudioSource AttackSound;
-
-        public AudioSource HitSound;
-        public AudioSource YouTurnSound;
-        public AudioSource WinSound;
-        public AudioSource LoseSound;
-        public AudioSource MonsterDying;
-
-        #endregion
-
-        #region Battle Canvas
-
-        [Header("Battle Canvas")]
-        public GameObject AttackButton;
-
-        #endregion
-
-        #region Properties
-
+        
         BattlePhaseView BattlePhaseView { get; set; }
+        GamePhase Phase { set; get; } = GamePhase.Start;
 
-        [Header("Properties")]
-        //public GameObject Background;
-
-        bool initBattle = false;
-        bool IsSetPlayerCards = false;
-
-        private int target = 0;
-
+        private int target;
         public int Target
         {
             get { return target; }
@@ -132,11 +68,9 @@ namespace BattlePhase
             }
         }
 
-        private int currentCard = 0;
-
         public int CurrentCard
         {
-            get { return currentCard; }
+            get { return CurrentCard; }
             set
             {
                 if (value == 0)
@@ -146,7 +80,7 @@ namespace BattlePhase
                 }
                 else
                 {
-                    if (value == currentCard)
+                    if (value == CurrentCard)
                     {
                         for (int i = 0; i < PlayerCards.Count; i++)
                         {
@@ -159,15 +93,17 @@ namespace BattlePhase
                         }
                     }
 
-                    if (IsUserTurn) IsUserTurn = true;
+                    if (IsUserTurn)
+                    {
+                        IsUserTurn = true;
+                    }
                 }
 
-                currentCard = value;
+                CurrentCard = value;
             }
         }
 
-        private bool isUserTurn;
-
+        bool isUserTurn;
         public bool IsUserTurn
         {
             get { return isUserTurn; }
@@ -175,9 +111,12 @@ namespace BattlePhase
             {
                 if (value && Target != 0 && CurrentCard != 0)
                 {
-                    AttackButton.SetActive(true);
+                    //BattlePhaseView.AttackButton.SetActive(true);
                 }
-                else AttackButton.SetActive(false);
+                else
+                {
+                    //BattlePhaseView.AttackButton.SetActive(false);
+                }
 
                 isUserTurn = value;
             }
@@ -185,141 +124,67 @@ namespace BattlePhase
 
         #endregion
 
-        void Start()
+        #region FUNCTIONS
+
+        IEnumerator StartGame()
         {
-            SlotController = FindObjectOfType<SlotController>();
-            BattlePhaseView = FindObjectOfType<BattlePhaseView>();
+            var getTurn = new System.Random().Next(0, 2);
+            IsUserTurn = getTurn == 0;
 
+            //show Start Game Panel
+            BattlePhaseView.StartGame(true, IsUserTurn);
 
-            // Scene COntroller
-            IsSetPlayerCards = false;
-            PlayerIdCards = new List<int>();
-            PCIdCards = new List<int>();
+            yield return new WaitForSeconds(1f);
 
-            for (int i = 0; i < PCCards.Count; i++)
-            {
-                PCIdCards.Add(PCCards[i].GetComponent<Stats>().Id);
-            }
-
-            PCCardsAliveCount = PCCards.Count;
-
-            for (int i = 0; i < PlayerCards.Count; i++)
-            {
-                PlayerIdCards.Add(PlayerCards[i].GetComponent<Stats>().Id);
-            }
-            PlayerCardsAliveCount = PlayerCards.Count;
-
-            //Phase = GamePhase.Selection;
-            Phase = GamePhase.Waiting;
-            //TMLogs.text = "SELECTION PHASE";
-            LoadPlayerDeck();
-            SetPlayerCards();
-            //initBattle = false;
-
-            //------
-            SelectionArea.SetActive(false);
-            TargetArea.SetActive(false);
-            EndGameCanvas.SetActive(false);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            if (Phase == GamePhase.Battle)
-            {
-                if (!IsSetPlayerCards) SetPlayerCards();
-
-                if ((PlayerCardsAliveCount == 0 || PCCardsAliveCount == 0) && initBattle)
-                {
-                    Phase = GamePhase.End;
-                    EndGame();
-                }
-            }
-        }
-
-        #region Functions
-        public void TargetFound()
-        {
-            if (Phase == GamePhase.Waiting) BattlePhaseView.PlayButton.SetActive(true);
-        }
-
-        public void TargetLost()
-        {
-            if (Phase == GamePhase.Waiting) BattlePhaseView.PlayButton.SetActive(false);
-        }
-
-        public void StartGame()
-        {
-            PlaySound.Play(0);
+            //Hide Start Game Panel
+            BattlePhaseView.StartGame(false, IsUserTurn);
             
-            SelectionCanvas.SetActive(false);
-            
-            BattleCanvas.SetActive(true);
-            //Background.SetActive(false);
-            StartCoroutine(StartGameDelay());
-        }
-
-        IEnumerator StartGameDelay()
-        {
-            System.Random rnd = new ();
-            var getTurn = rnd.Next(0, 2);
             Phase = GamePhase.Battle;
-
-            if (getTurn == 0)
-            {
-                IsUserTurn = true;
-                Debug.Log("Player 1");
-                BattlePhaseView.FirstTurnCoin.SetActive(true);
-
-                yield return new WaitForSeconds(1f);
-
-                BattlePhaseView.FirstTurnCoin.SetActive(false);
-                Debug.Log("Player 2");
-            }
-            else
-            {
-                IsUserTurn = false;
-                Debug.Log("PC 1");
-                BattlePhaseView.SecondTurnCoin.SetActive(true);
-
-                yield return new WaitForSeconds(1f);
-
-                BattlePhaseView.SecondTurnCoin.SetActive(false);
-                StartCoroutine(StartEnemyAttack());
-                Debug.Log("PC 2");
-            }
-            initBattle = true;
         }
 
-        void SetPlayerCards()
+        void EndGame(bool playerIsWinner)
         {
-            for (int i = 0; i < PlayerCards.Count; i++) PlayerCards[i].GetComponent<Stats>().Player = 1;
-            IsSetPlayerCards = true;
-        }
-
-        void EndGame()
-        {
-            //Background.SetActive(true);
-            if (PlayerCardsAliveCount > 0)
+            if (playerIsWinner)
             {
-                WinSound.Play(0);
+                BattlePhaseView.WinSound.Play(0);
                 BattlePhaseView.WinImage.SetActive(true);
                 foreach (var i in PCCards) i.SetActive(false);
             }
             else
             {
-                LoseSound.Play(0);
+                BattlePhaseView.LoseSound.Play(0);
                 BattlePhaseView.LoseImage.SetActive(true);
                 foreach (var i in PlayerCards) i.SetActive(false);
             }
 
-            BattleCanvas.SetActive(false);
-            EndGameCanvas.SetActive(true);
+            //BattleCanvas.SetActive(false);
+            //EndGameCanvas.SetActive(true);
         }
+
+        #endregion
+
+        public void TargetFound()
+        {
+            //if (Phase == GamePhase.Waiting) BattlePhaseView.PlayButton.SetActive(true);
+        }
+
+        public void TargetLost()
+        {
+            //if (Phase == GamePhase.Waiting) BattlePhaseView.PlayButton.SetActive(false);
+        }
+
+        
+
+        void SetPlayerCards()
+        {
+            for (int i = 0; i < PlayerCards.Count; i++) PlayerCards[i].GetComponent<Stats>().Player = 1;
+            //IsSetPlayerCards = true;
+        }
+
 
         public void Restart()
         {
-            RestartSound.Play(0);
+            BattlePhaseView.RestartSound.Play(0);
             BattlePhaseView.RestartButton.SetActive(false);
             StartCoroutine(RestartGameDelay());
         }
@@ -328,12 +193,12 @@ namespace BattlePhase
         {
             yield return new WaitForSeconds(1.5f);
             SceneManager.LoadScene(0);
-            EndGameCanvas.SetActive(false);
+            //EndGameCanvas.SetActive(false);
         }
 
         public void SelectCard(int id, string name)
         {
-            if (Phase == GamePhase.Selection)
+            if (Phase == GamePhase.Start)
             {
                 if (PlayerIdCards.Contains(id) == false && PlayerIdCards.Count < 3)
                 {
@@ -357,7 +222,7 @@ namespace BattlePhase
 
                         System.Random rnd = new ();
                         var getTurn = rnd.Next(0, 2);
-                        initBattle = true;
+                        //initBattle = true;
 
                         if (getTurn == 0)
                         {
@@ -391,10 +256,10 @@ namespace BattlePhase
 
         public void Attack2()
         {
-            AttackButton.SetActive(false);
+            //BattlePhaseView.AttackButton.SetActive(false);
             if (!IsUserTurn) return;
 
-            AttackSound.Play(0);
+            BattlePhaseView.AttackSound.Play(0);
             StartCoroutine(AttackGameDelay());
         }
 
@@ -428,8 +293,8 @@ namespace BattlePhase
 
             if (PCCards[enemyCard].GetComponent<Stats>().CurrentHealth < 1)
             {
-                PCHitEffects[enemyCard].Play();
-                HitSound.Play(0);
+                //PCHitEffects[enemyCard].Play();
+                BattlePhaseView.HitSound.Play(0);
                 yield return new WaitForSeconds(0.5f);
 
                 if (target == PCCards[enemyCard].GetComponent<Stats>().Id)
@@ -443,26 +308,26 @@ namespace BattlePhase
                 PCCards[enemyCard].SetActive(false);
                 //PCCards.RemoveAt(enemyCard);
 
-                TargetAreas[enemyCard].SetActive(false);
+                //TargetAreas[enemyCard].SetActive(false);
                 //TargetAreas.RemoveAt(enemyCard);
                 //EnemyAreas.RemoveAt(enemyCard);
                 PCCardsAliveCount--;
-                MonsterDying.Play(0);
+                BattlePhaseView.MonsterDyingSound.Play(0);
             }
             else
             {
                 //Target = Target;
-                PCHitEffects[enemyCard].Play();
-                HitSound.Play(0);
+                //PCHitEffects[enemyCard].Play();
+                BattlePhaseView.HitSound.Play(0);
             }
 
             IsUserTurn = false;
             yield return new WaitForSeconds(0.25f);
-            YouTurnSound.Play(0);
+            BattlePhaseView.YouTurnSound.Play(0);
             StartCoroutine(StartEnemyAttack());
         }
 
-        #endregion
+        
         //----------------------------------------------
 
         IEnumerator StartEnemyAttack()
@@ -497,7 +362,7 @@ namespace BattlePhase
                     }
                 }
                 */
-                EnemyAreas[cartaMayorDamage.Index].SetActive(true);
+                //BattlePhaseView.EnemyAreas[cartaMayorDamage.Index].SetActive(true);
                 yield return new WaitForSeconds(1.5f);
 
                 int minHealthIndex = 0;
@@ -525,8 +390,8 @@ namespace BattlePhase
 
                 if (PlayerCards[minHealth.Index].GetComponent<Stats>().CurrentHealth < 1)
                 {
-                    PlayerHitEffects[minHealth.Index].Play();
-                    HitSound.Play(0);
+                    //PlayerHitEffects[minHealth.Index].Play();
+                    BattlePhaseView.HitSound.Play(0);
                     yield return new WaitForSeconds(0.5f);
 
                     if (CurrentCard == PlayerCards[minHealth.Index].GetComponent<Stats>().Id)
@@ -540,29 +405,29 @@ namespace BattlePhase
                     PlayerCards[minHealth.Index].SetActive(false);
                     //PlayerCards.RemoveAt(minHealthIndex);
 
-                    SelectionAreas[minHealth.Index].SetActive(false);
+                    //SelectionAreas[minHealth.Index].SetActive(false);
                     //SelectionAreas.RemoveAt(minHealthIndex);
 
-                    MonsterDying.Play(0);
+                    BattlePhaseView.MonsterDyingSound.Play(0);
                     PlayerCardsAliveCount--;
                 }
                 else
                 {
                     CurrentCard = CurrentCard;
-                    PlayerHitEffects[minHealth.Index].Play();
-                    HitSound.Play(0);
+                    //PlayerHitEffects[minHealth.Index].Play();
+                    BattlePhaseView.HitSound.Play(0);
                 }
 
-                EnemyAreas[maxDamageIndex].SetActive(false);
+                //BattlePhaseView.EnemyAreas[maxDamageIndex].SetActive(false);
                 IsUserTurn = true;
                 yield return new WaitForSeconds(0.25f);
-                YouTurnSound.Play(0);
+                BattlePhaseView.YouTurnSound.Play(0);
             }
         }
 
         public void LoadCurrentCard(Stats card)
         {
-            if (!initBattle) return;
+            //if (!initBattle) return;
 
             if (PlayerIdCards.Contains(card.Id) && card.Player == 1)
             {
@@ -574,12 +439,12 @@ namespace BattlePhase
                 {
                     if (PlayerCards[i].GetComponent<Stats>().Id == CurrentCard)
                     {
-                        SelectionAreas[i].SetActive(false);
+                        //SelectionAreas[i].SetActive(false);
                     }
 
                     if (PlayerCards[i].GetComponent<Stats>().Id == card.Id)
                     {
-                        SelectionAreas[i].SetActive(true);
+                        //SelectionAreas[i].SetActive(true);
                         var postion = Portrait1.transform.position;
                         Portrait1.transform.position = new Vector3(-0.4f + i * 0.2f, postion.y, postion.z);
                     }
@@ -598,12 +463,12 @@ namespace BattlePhase
                 {
                     if (PCCards[i].GetComponent<Stats>().Id == Target)
                     {
-                        TargetAreas[i].SetActive(false);
+                        //TargetAreas[i].SetActive(false);
                     }
 
                     if (PCCards[i].GetComponent<Stats>().Id == card.Id)
                     {
-                        TargetAreas[i].SetActive(true);
+                        //TargetAreas[i].SetActive(true);
                         var postion = Portrait2.transform.position;
                         Portrait2.transform.position = new Vector3(-0.4f + i * 0.2f, postion.y, postion.z);
                     }
@@ -622,17 +487,42 @@ namespace BattlePhase
             }
         }
 
-        public enum GamePhase
-        {
-            Selection,
-            Waiting,
-            Battle,
-            End
-        }
+        
 
         public void Surrender()
         {
             SceneManager.LoadSceneAsync(1);
+        }
+
+        public enum GamePhase
+        {
+            Start,
+            Battle,
+            End,
+            Paused,
+        }
+
+        void Start()
+        {
+            SlotController = FindObjectOfType<SlotController>();
+            BattlePhaseView = FindObjectOfType<BattlePhaseView>();
+            PlayerController = FindObjectOfType<PlayerController>();
+
+            Phase = GamePhase.Start;
+
+            StartCoroutine(StartGame());
+        }
+
+        void Update()
+        {
+            if (Phase == GamePhase.Battle)
+            {
+                if (PlayerController.GetCurrentPlayerHealth() == 0 || PCCardsAliveCount == 0)
+                {
+                    Phase = GamePhase.End;
+                    EndGame(true);
+                }
+            }
         }
     }
 }

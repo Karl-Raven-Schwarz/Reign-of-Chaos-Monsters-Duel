@@ -8,13 +8,17 @@ namespace BattlePhase
     {
         #region ATRIBUTES
 
-        [Header("Canvas Start Game")]
-        public GameObject PlayButton;
-        public GameObject FirstTurnCoin;
-        public GameObject SecondTurnCoin;
-        public GameObject BlackBackground;
+        [Header("Start Game Panel")]
+        [SerializeField] private GameObject StartGamePanel;
+        [SerializeField] private GameObject FirstTurnCoin;
+        [SerializeField] private GameObject SecondTurnCoin;
+
+        [Header("Battle Canvas")]
+        //public GameObject AttackButton;
+        public GameObject BattleCanvas;
 
         [Header("Canvas End Game")]
+        public GameObject EndGameCanvas;
         public GameObject RestartButton;
         public GameObject WinImage;
         public GameObject LoseImage;
@@ -31,13 +35,19 @@ namespace BattlePhase
         public GameObject ComputerDamageCardImage;
         public GameObject ComputerHealthCardImage;
 
-        [Header("Selection and Target Area")]
-        public List<GameObject> SelectionAreas;
-        public List<GameObject> TargetAreas;
-        public List<GameObject> EnemyAreas;
+        [Header("Sounds")]
+        public AudioSource PlaySound;
+        public AudioSource RestartSound;
+        public AudioSource AttackSound;
+        public AudioSource HitSound;
 
-        [Header("Battle Canvas")]
-        public GameObject AttackButton;
+        /// <summary>
+        /// Sound for user turn
+        /// </summary>
+        public AudioSource YouTurnSound;
+        public AudioSource WinSound;
+        public AudioSource LoseSound;
+        public AudioSource MonsterDyingSound;
 
         #endregion
 
@@ -48,6 +58,44 @@ namespace BattlePhase
         #endregion
 
         #region FUNCTIONS
+
+        public void StartGame(bool showCoins, bool playerIsFirst)
+        {
+            if (showCoins)
+            {
+
+                StartGamePanel.SetActive(true);
+
+                if (playerIsFirst)
+                {
+                    FirstTurnCoin.SetActive(true);
+                    SecondTurnCoin.SetActive(false);
+                }
+                else
+                {
+                    FirstTurnCoin.SetActive(false);
+                    SecondTurnCoin.SetActive(true);
+                }
+            }
+            else
+            {
+                StartGamePanel.SetActive(false);
+            }
+        }
+
+        public void EndGame(bool playerIsWinner)
+        {
+            if(playerIsWinner)
+            {
+                WinImage.SetActive(true);
+                LoseImage.SetActive(false);
+            }
+            else
+            {
+                WinImage.SetActive(false);
+                LoseImage.SetActive(true);
+            }
+        }
 
         public void LoadPlayerCardStats(string cardName, int attackDamage, int currentHealth)
         {
@@ -73,16 +121,12 @@ namespace BattlePhase
             ComputerHealthCardImage.SetActive(state);
         }
 
-
         #endregion
 
 
         // Start is called before the first frame update
         void Start()
         {
-            AttackButton!.SetActive(false);
-
-            BlackBackground!.SetActive(true);
         }
 
 

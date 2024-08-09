@@ -29,7 +29,7 @@ public class PlatformSelect : MonoBehaviour
         index = 0;   
         Stars = 25;
         TMStars.text = "25";
-
+        /*
         if (SceneController.GetPhase() == BattlePhase.SceneController.GamePhase.Selection) 
         {
             CardsSaved.Add(Instantiate(Cards[index]));
@@ -39,7 +39,7 @@ public class PlatformSelect : MonoBehaviour
             CardStats.text = $"{stats.AttackDamage}\n{stats.Health}";
             CurrentName = stats.Name;
         }
-        
+        */
     }
 
     // Update is called once per frame
