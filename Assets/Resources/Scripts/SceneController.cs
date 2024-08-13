@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
 namespace BattlePhase
 {
     public class SceneController : MonoBehaviour
     {
+        public const int SLOTS = 7;
+
         #region PROPIERTIES
+
+        /// <summary>
+        /// All cards in the game.
+        /// </summary>
+        public List<GameObject> GameCards { get; private set; } = new List<GameObject>();
 
         [Header("Slots")]
 
@@ -124,10 +132,46 @@ namespace BattlePhase
 
         #endregion
 
+        #region EVENTS
+
+        public static event Action<GamePhase> OnPhaseChange;
+
+        /// <summary>
+        /// TRUE: Player turn.
+        /// FALSE: Computer turn.
+        /// </summary>
+        public static event Action<bool> OnTurnChanged;
+
+        #endregion
+
         #region FUNCTIONS
+        void GetAllCards()
+        {
+            var prefabs = Resources.LoadAll<GameObject>("Prefabs/Units/Level 1");
+
+            if (prefabs.Length > 0)
+            {
+                foreach (GameObject prefab in prefabs)
+                {
+                    GameCards.Add(prefab);
+                }
+            }
+
+            prefabs = Resources.LoadAll<GameObject>("Prefabs/Units/Level 2");
+
+            if (prefabs.Length > 0)
+            {
+                prefabs.All(prefab => { 
+                    GameCards.Add(prefab); 
+                    return true; 
+                });
+            }
+        }
 
         IEnumerator StartGame()
         {
+            GetAllCards();
+
             var getTurn = new System.Random().Next(0, 2);
             IsUserTurn = getTurn == 0;
 
@@ -159,6 +203,11 @@ namespace BattlePhase
 
             //BattleCanvas.SetActive(false);
             //EndGameCanvas.SetActive(true);
+        }
+
+        public void EndTurn()
+        {
+            IsUserTurn = false;
         }
 
         #endregion
@@ -523,6 +572,16 @@ namespace BattlePhase
                     EndGame(true);
                 }
             }
+        }
+
+        public void OnPointerEnterInCard(int id)
+        {
+            Debug.Log("OnPointerEnterInCard");
+        }
+
+        public void OnPointerExitInCard()
+        {
+            Debug.Log("OnPointerExitInCard");
         }
     }
 }

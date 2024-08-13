@@ -1,4 +1,4 @@
-using System;
+using Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +14,6 @@ public class SlotController : MonoBehaviour
     public GameObject SlotPrefab;
     List<GameObject> PlayerSlots;
     List<GameObject> PCSlots;
-
-    GameObject PlayerDeck;
-    Deck PCDeck;
 
     /// <summary>
     /// Current Player Card Selected
@@ -46,8 +43,6 @@ public class SlotController : MonoBehaviour
     void Start()
     {
         CreateSlots();
-        PlayerDeck = GameObject.FindWithTag("PlayerDeck");
-        PCDeck = GameObject.FindWithTag("PCDeck").GetComponent<Deck>();
         Mana = 4;
     }
 
@@ -116,48 +111,6 @@ public class SlotController : MonoBehaviour
         }
     }
 
-    public void InvokeCard(int slotId)
-    {
-        var card = PlayerDeck.GetComponent<Deck>().InvokeCard();
-
-        if (card == null)
-        {
-            return;
-        }
-
-        var getStats = card.GetComponent<Stats>();
-
-        if (getStats.Stars > Mana) return;
-
-        PlayerSlots[slotId].GetComponent<Slot>().Card = Instantiate(card);
-        PlayerSlots[slotId].GetComponent<Slot>().Card.SetActive(true);
-
-        var slotPosition = PlayerSlots[slotId].GetComponent<Slot>().transform.position;
-        var cardPrefabPosition = PlayerSlots[slotId].GetComponent<Slot>().Card.transform.position;
-
-        PlayerSlots[slotId].GetComponent<Slot>().Card.transform.position = new Vector3
-        (
-            slotPosition.x, 
-            cardPrefabPosition.y, 
-            slotPosition.z
-        );
-        
-        PlayerSlots[slotId].GetComponent<Slot>().SelectionEffect[2].SetActive(false);
-        PlayerSlots[slotId].GetComponent<Slot>().CardTemplate.SetActive(false);
-        PlayerSlots[slotId].GetComponent<Slot>().HealthBarObject.SetActive(true);
-        PlayerSlots[slotId].GetComponent<Slot>().HealthBarObject.transform.position = new Vector3
-        (
-            slotPosition.x,
-            0.2f,
-            slotPosition.z
-        );
-
-        PlayerSlots[slotId].GetComponent<Slot>().HealthBarObject.GetComponentInChildren<HealthBar>().SetColor(true);
-
-        ToggleFreeSlots(true);
-        Mana++;
-    }
-
     IEnumerator GameDelay(float time)
     {
         //Debug.Log("Start delay");
@@ -165,47 +118,7 @@ public class SlotController : MonoBehaviour
         //Debug.Log("End delay");
     }
 
-    public void PCInvokeCard()
-    {
-        
-        StartCoroutine(GameDelay(12));
-        Debug.Log("End delay");
-        var slot = PCSlots.Where(s => s.GetComponent<Slot>().Card == null).FirstOrDefault().GetComponent<Slot>();
-        
-        //Random invoke (hard data)
-        int cardIndex = UnityEngine.Random.Range(0, 10);
-
-        var card = PCDeck.Cards[cardIndex];
-
-        PCSlots[slot.SlotID].GetComponent<Slot>().Card = Instantiate(card);
-        PCSlots[slot.SlotID].GetComponent<Slot>().Card.SetActive(true);
-
-        PCSlots[slot.SlotID].GetComponent<Slot>().IsPlayer = false;
-
-        var slotPosition = PCSlots[slot.SlotID].GetComponent<Slot>().transform.position;
-        var cardPrefabPosition = PCSlots[slot.SlotID].GetComponent<Slot>().Card.transform.position;
-
-        PCSlots[slot.SlotID].GetComponent<Slot>().Card.transform.position = new Vector3
-        (
-            slotPosition.x,
-            cardPrefabPosition.y,
-            slotPosition.z
-        );
-
-        PCSlots[slot.SlotID].GetComponent<Slot>().Card.transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-
-        //Health Bar
-        PCSlots[slot.SlotID].GetComponent<Slot>().HealthBarObject.SetActive(true);
-        PCSlots[slot.SlotID].GetComponent<Slot>().HealthBarObject.transform.position = new Vector3
-        (
-            slotPosition.x,
-            0.2f,
-            slotPosition.z
-        );
-
-        //PCSlots[slot.SlotID].GetComponent<Slot>().HealthBar.GetComponent<HealthBar>().SetColor(false);
-        PCSlots[slot.SlotID].GetComponent<Slot>().HealthBarObject.GetComponentInChildren<HealthBar>().SetColor(false);
-    }
+    
 
     #endregion
 
@@ -256,30 +169,33 @@ public class SlotController : MonoBehaviour
 
     public void SelectCard(int slotID, bool isPlayer)
     {
-        /*
-        if (!initBattle) return;
+        //if (!initBattle) return;
 
         if (isPlayer)
         {
-            var card = SlotController.GetCard(slotID, isPlayer);
+            var card = GetCard(slotID, isPlayer);
 
             //Load Card Stats in UI
+            /*
             DamagePlayerCardImage.SetActive(true);
             HealthPlayerCardImage.SetActive(true);
             PlayerCardName.text = $"{card.Name}";
             PlayerCardStats.text = $"{card.AttackDamage}\n{card.CurrentHealth}";
-
+            */
             //Show Selection Effect
             ShowSelectionEffect(slotID, isPlayer);
 
             //Move Portrait Camera
+            /*
             var postion = Potrait1.transform.position;
             Potrait1.transform.position = new Vector3(-0.4f + ((slotID - 1) * 0.2f), postion.y, postion.z);
 
             CurrentCard = slotID;
+            */
         }
         else
         {
+            /*
             var card = SlotController.GetCard(slotID, isPlayer);
             //Load Card Stats in UI
             DamagePCCardImage.SetActive(true);
@@ -295,8 +211,8 @@ public class SlotController : MonoBehaviour
             Potrait2.transform.position = new Vector3(0.4f - ((slotID - 1) * 0.2f), postion.y, postion.z);
 
             CurrentCard = slotID;
+            */
         }
-        */
     }
 
     #endregion

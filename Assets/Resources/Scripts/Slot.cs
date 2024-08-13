@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class Slot: MonoBehaviour
 {
-    #region Properties
+    #region PROPERTIES
 
     [Header("Properties")]
    
     public Vector3 Position;
     public bool IsPlayer { get; set; }
     public int SlotID { get; set; } = -1;
-
-    #endregion
-
-    #region GameObjects
+    public SlotStatus Status { get; set; }
 
     [Header("GameObjects")]
     public GameObject HitEffect;
@@ -35,22 +32,23 @@ public class Slot: MonoBehaviour
     public List<GameObject> SelectionEffect;
     public GameObject Card { get; set; }
 
-    /// <summary>
-    /// </summary>
-    public SlotStatus Status {
-        get
-        {
-            return Card == null ? SlotStatus.Empty : SlotStatus.Invoke;
-        }
-    }
+    #endregion
 
-    public enum SlotStatus
+    #region FUNCTIONS
+    
+    public bool HasCard()
     {
-        Empty = 0,
-        Invoke = 1, // have card
+        return Card != null;
     }
 
     #endregion
+
+    public enum SlotStatus
+    {
+        Enabled = 0,
+        Disabled = 1,
+        Selected = 2,
+    }
 
     private void Start()
     {

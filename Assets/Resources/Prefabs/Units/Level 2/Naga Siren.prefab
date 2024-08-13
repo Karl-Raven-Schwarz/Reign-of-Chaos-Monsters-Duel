@@ -60,11 +60,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4577974229064241131, guid: 51f8121f25d96f343b3bc23af1da60f9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 51f8121f25d96f343b3bc23af1da60f9, type: 3}
       propertyPath: m_Name
       value: Naga Siren
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 51f8121f25d96f343b3bc23af1da60f9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1627286063415755032, guid: 51f8121f25d96f343b3bc23af1da60f9, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

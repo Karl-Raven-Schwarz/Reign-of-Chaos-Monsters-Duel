@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dalaran Reject
       objectReference: {fileID: 0}
+    - target: {fileID: 2845488351021126278, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
