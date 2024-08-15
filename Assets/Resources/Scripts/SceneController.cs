@@ -13,10 +13,30 @@ namespace BattlePhase
 
         #region PROPIERTIES
 
+        private static List<GameObject> gameCards = null;
+
         /// <summary>
         /// All cards in the game.
         /// </summary>
-        public List<GameObject> GameCards { get; private set; } = new List<GameObject>();
+        public static List<GameObject> GameCards { 
+            get
+            {
+                if(gameCards == null)
+                {
+                    gameCards = new List<GameObject>();
+                    GetAllCards();
+                }
+
+                return gameCards;
+            }
+            private set
+            {
+                if (gameCards == null)
+                {
+                    gameCards = value;
+                }
+            }
+        }
 
         [Header("Slots")]
 
@@ -142,10 +162,12 @@ namespace BattlePhase
         /// </summary>
         public static event Action<bool> OnTurnChanged;
 
+        public static event Action<List<GameObject>> OnLoadGameCards;
+
         #endregion
 
         #region FUNCTIONS
-        void GetAllCards()
+        private static void GetAllCards()
         {
             var prefabs = Resources.LoadAll<GameObject>("Prefabs/Units/Level 1");
 
@@ -170,8 +192,6 @@ namespace BattlePhase
 
         IEnumerator StartGame()
         {
-            GetAllCards();
-
             var getTurn = new System.Random().Next(0, 2);
             IsUserTurn = getTurn == 0;
 
@@ -551,12 +571,12 @@ namespace BattlePhase
             Paused,
         }
 
+        private void Awake()
+        {
+        }
+
         void Start()
         {
-            SlotController = FindObjectOfType<SlotController>();
-            BattlePhaseView = FindObjectOfType<BattlePhaseView>();
-            PlayerController = FindObjectOfType<PlayerController>();
-
             Phase = GamePhase.Start;
 
             StartCoroutine(StartGame());
@@ -566,22 +586,24 @@ namespace BattlePhase
         {
             if (Phase == GamePhase.Battle)
             {
+                /*
                 if (PlayerController.GetCurrentPlayerHealth() == 0 || PCCardsAliveCount == 0)
                 {
                     Phase = GamePhase.End;
                     EndGame(true);
                 }
+                */
             }
         }
 
         public void OnPointerEnterInCard(int id)
         {
-            Debug.Log("OnPointerEnterInCard");
+            //Debug.Log("OnPointerEnterInCard");
         }
 
         public void OnPointerExitInCard()
         {
-            Debug.Log("OnPointerExitInCard");
+            //Debug.Log("OnPointerExitInCard");
         }
     }
 }

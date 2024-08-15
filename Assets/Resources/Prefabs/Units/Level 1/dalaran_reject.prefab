@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3956148692412435552
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0036
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_Name
+      value: Dalaran Reject
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845488351021126278, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4459997455795055531}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1788329584359548689}
+  m_SourcePrefab: {fileID: 100100000, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+--- !u!1 &4190170195275526449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6df446d29aa679e45a665453f9eb8c3f, type: 3}
+  m_PrefabInstance: {fileID: 3956148692412435552}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4459997455795055531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4190170195275526449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642147f6ae4f9804c9630bbfb9ba0fd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 240
+  CurrentHealth: 240
+  AttackDamage: 110
+  CurrentAttackDamage: 110
+  Name: Dalaran Reject
+  Type: 
+  Stars: 0
+  Id: 1104241403
+  Player: 0
+--- !u!114 &1788329584359548689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4190170195275526449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1110e154368664b877729bbb208473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageSprite: {fileID: 0}
+  Name: 
+  Level: 0
+  Attack: 0
+  Health: 0
+  Image: {fileID: 0}
+  NameTMP: {fileID: 0}
+  LevelTMP: {fileID: 0}
+  AttackTMP: {fileID: 0}
+  HealthTMP: {fileID: 0}

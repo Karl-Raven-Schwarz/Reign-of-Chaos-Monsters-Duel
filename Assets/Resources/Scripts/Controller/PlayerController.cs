@@ -1,4 +1,6 @@
 using Models;
+using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace BattlePhase
@@ -53,9 +55,13 @@ namespace BattlePhase
 
         #endregion
 
+        private void Awake()
+        {
+            Model = new Player(SceneController.GameCards);
+        }
+
         void Start()
         {
-            Model = new Player();
         }
 
         void Update()

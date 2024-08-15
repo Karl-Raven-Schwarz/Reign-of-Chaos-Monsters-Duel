@@ -1090,11 +1090,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1110e154368664b877729bbb208473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: 
+  health: 0
+  damage: 0
+  type: 
+  level: 0
+  id: 
   ImageSprite: {fileID: 0}
-  Name: 
-  Level: 0
-  Attack: 0
-  Health: 0
   Image: {fileID: 333880650}
   NameTMP: {fileID: 1788414121}
   LevelTMP: {fileID: 642161607}

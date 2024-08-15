@@ -42,7 +42,7 @@ public class SlotController : MonoBehaviour
 
     void Start()
     {
-        CreateSlots();
+        //CreateSlots();
         Mana = 4;
     }
 

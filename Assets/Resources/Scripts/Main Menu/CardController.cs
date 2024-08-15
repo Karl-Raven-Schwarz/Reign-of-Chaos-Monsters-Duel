@@ -37,7 +37,7 @@ public class CardController : MonoBehaviour
             gameObject.GetComponent<Card>().ImageSprite = Cards[i].ImageSprite;
             gameObject.GetComponent<Card>().Name = Cards[i].Name;
             gameObject.GetComponent<Card>().Level = Cards[i].Level;
-            gameObject.GetComponent<Card>().Attack = Cards[i].Attack;
+            gameObject.GetComponent<Card>().Damage = Cards[i].Attack;
             gameObject.GetComponent<Card>().Health = Cards[i].Health;
         }
 

@@ -11,33 +11,17 @@ namespace Controller
         #region PROPERTIES
 
         public Computer Model { get; set; }
-        public List<GameObject> Slots;
+
+        List<GameObject> slots = new ();
+        public List<GameObject> Slots 
+        {
+            get => slots;
+            set => slots = value;
+        }
 
         #endregion
 
         #region FUNCTIONS
-
-        void CreateSlots()
-        {
-            //Load Slot prefab
-            var slotPrefab = Resources.Load<GameObject>("Prefabs/BattleArenaObjects/Slot");
-
-            float xInitialPosition = -0.6f;
-            const float yPosition = 0f;
-            const float zPosition = 0.15f;
-
-            for (int i = 0; i < SceneController.SLOTS; i++)
-            {
-                GameObject pcSlot = Instantiate(slotPrefab);
-                pcSlot.SetActive(true);
-                pcSlot.transform.position = new Vector3(-xInitialPosition, yPosition, zPosition);
-                pcSlot.GetComponent<Slot>().SlotID = i;
-                pcSlot.GetComponent<Slot>().IsPlayer = false;
-                Slots.Add(pcSlot);
-
-                xInitialPosition += 0.2f;
-            }
-        }
 
         void BattleLogic()
         {
@@ -125,8 +109,6 @@ namespace Controller
             SceneController.OnTurnChanged += HandleTurnChanged;
 
             Model = new Computer();
-
-            CreateSlots();
         }
 
         void Update()

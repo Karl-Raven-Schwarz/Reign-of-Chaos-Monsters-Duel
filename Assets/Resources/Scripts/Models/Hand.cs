@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,10 +51,19 @@ namespace Models
         public Hand(List<GameObject> cards)
         {
             Cards = cards;
+            Debug.Log("Hand created");
 
-            foreach (var card in Cards)
+            try
             {
-                CardsData.Add(card.GetComponent<Card>());
+                foreach (var card in Cards)
+                {
+                    //replace with Slot
+                    CardsData.Add(card.GetComponent<Card>());
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
             }
         }
     }
