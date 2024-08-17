@@ -73,7 +73,6 @@ namespace Models
 
         [Header("UI")]
         public Sprite ImageSprite;
-        public Image Image;
         public TextMeshProUGUI NameTMP;
         public TextMeshProUGUI LevelTMP;
         public TextMeshProUGUI AttackTMP;

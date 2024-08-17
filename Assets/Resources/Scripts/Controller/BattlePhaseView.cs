@@ -1,6 +1,9 @@
+using Models;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BattlePhase 
 {
@@ -49,6 +52,10 @@ namespace BattlePhase
         public AudioSource LoseSound;
         public AudioSource MonsterDyingSound;
 
+        [Header("Hand")]
+        public GameObject HandPanel;
+        public GameObject CardTemplatePrefab;
+
         #endregion
 
         #region PROPERTIES
@@ -58,6 +65,42 @@ namespace BattlePhase
         #endregion
 
         #region FUNCTIONS
+
+        private void InitializeHand()
+        {
+            int handSize = new System.Random().Next(1, 10);
+            GameObject gameObject;
+
+            for (int i = 0; i < handSize; i++)
+            {
+                gameObject = Instantiate(CardTemplatePrefab, Vector3.zero, Quaternion.identity);
+                gameObject.transform.SetParent(HandPanel.GetComponent<RectTransform>().transform);
+                gameObject.transform.localScale = Vector3.one;
+                gameObject.transform.localPosition = new Vector3();
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3());
+                gameObject.name = $"Card {i + 1}";
+                /*
+                gameObject.GetComponent<Card>().ImageSprite = Cards[i].ImageSprite;
+                gameObject.GetComponent<Card>().Name = Cards[i].Name;
+                gameObject.GetComponent<Card>().Level = Cards[i].Level;
+                gameObject.GetComponent<Card>().Damage = Cards[i].Attack;
+                gameObject.GetComponent<Card>().Health = Cards[i].Health;
+                */
+            }
+
+            if (handSize < 6)
+            {
+                HandPanel.GetComponent<GridLayoutGroup>().spacing = new Vector2(0, 0);
+            }
+            else if (handSize == 6)
+            {
+                HandPanel.GetComponent<GridLayoutGroup>().spacing = new Vector2(-20, 0);
+            }
+            else
+            {
+                HandPanel.GetComponent<GridLayoutGroup>().spacing = new Vector2(10 * (3 - handSize), 0);
+            }
+        }
 
         public void StartGame(bool showCoins, bool playerIsFirst)
         {
@@ -123,15 +166,11 @@ namespace BattlePhase
 
         #endregion
 
-
-        // Start is called before the first frame update
         void Start()
         {
+            InitializeHand();
         }
 
-
-
-        // Update is called once per frame
         void Update()
         {
         }
